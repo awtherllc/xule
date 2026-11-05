@@ -67,6 +67,9 @@ jobs:
           rm -rf "$SITE_PACKAGES/arelle/plugin/EDGAR/.git"
           rm -rf "$EDGAR_SRC"
 
+      - name: Run Python regression tests
+        run: python -m unittest discover -s unitTests/python -p 'test_*.py' -v
+
       - name: Determine files and rules to run
         id: rules
         env:
