@@ -719,12 +719,13 @@ def isXuleDirect(cntlr):
 
 def xuleRegisterValidators(name, map_name, validate_var=None):
 
-    # Registers the validator
+    # Registers the validator once when web requests reinitialize the same plugin.
     global _xule_validators
-    if validate_var is None:
-        _xule_validators.append({'name':name, 'map_name': map_name})
-    else:
-        _xule_validators.append({'name':name, 'validate_flag': validate_var, 'map_name': map_name})
+    registration = {'name':name, 'map_name': map_name}
+    if validate_var is not None:
+        registration['validate_flag'] = validate_var
+    if registration not in _xule_validators:
+        _xule_validators.append(registration)
 
 def validatorVersion(cntlr, validator_name, map_name, version_prefix, validator_file):
     '''Log the version text'''
